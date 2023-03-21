@@ -1,4 +1,4 @@
-# jupyterlab-logout
+# Workbench custom buttons
 
 [![Extension status](https://img.shields.io/badge/status-ready-success "ready to be used")](https://jupyterlab-contrib.github.io/)
 ![Github Actions Status](https://github.com/jupyterlab-contrib/jupyterlab-logout/workflows/Build/badge.svg)
@@ -18,6 +18,12 @@ pip install jupyterlab-logout
 ```
 
 ## Contributing
+
+### Install from dev branch
+
+```bash
+python3 -m pip install "git+https://github.com/huntdatacenter/jupyterlab-logout.git@dev"
+```
 
 ### Development install
 
