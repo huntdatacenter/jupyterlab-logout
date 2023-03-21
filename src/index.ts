@@ -47,7 +47,8 @@ const extension: JupyterFrontEndPlugin<void> = {
     const logout = document.createElement('button');
     logout.id = 'logout';
     logout.type = 'button';
-    logout.innerHTML = '<span class="bp3-button-text"><i aria-hidden="true" class="fa fa-sign-out"></i> Logout</span>';
+    logout.innerHTML =
+      '<span class="bp3-button-text"><i aria-hidden="true" class="fa fa-sign-out"></i> Logout</span>';
     logout.addEventListener('click', () => {
       router.navigate('/logout', { hard: true });
     });
