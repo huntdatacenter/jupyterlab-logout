@@ -29,6 +29,12 @@ mamba activate jlpm
 jlpm install
 ```
 
+Run lint checks after editing code:
+
+```bash
+jlpm run eslint:check
+```
+
 ### Install from dev branch
 
 ```bash
