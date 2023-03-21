@@ -19,6 +19,16 @@ pip install jupyterlab-logout
 
 ## Contributing
 
+### Setup dev environment
+
+```bash
+mamba create -n jlpm -c conda-forge --yes "python=3.10" "nodejs=14" "jupyterlab=3" "jupyterlab-topbar>=0.6.0" "jupyter" "notebook" "yarn"
+
+mamba activate jlpm
+
+jlpm install
+```
+
 ### Install from dev branch
 
 ```bash
