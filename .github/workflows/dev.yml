@@ -2,9 +2,8 @@ name: Build
 
 on:
   push:
-    branches: 
-      - dev
-      - darkmode
+    branches-ignore:
+      - main
   pull_request:
     branches: '*'
 
@@ -17,7 +16,7 @@ jobs:
     - name: Install node
       uses: actions/setup-node@v3
       with:
-       node-version: '14'
+       node-version: '16'
     - name: Install Python
       uses: actions/setup-python@v4
       with:
@@ -44,8 +43,8 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-yarn-
 
-    - name: Install dependencies
-      run: python3 -m pip install -U jupyterlab~=3.0 jupyter_packaging~=0.7.9
+    - name: Install test dependencies
+      run: python3 -m pip install -U build jupyterlab~=3.0 jupyter_packaging~=0.7.9
     - name: Test the extension
       run: |
         jlpm
@@ -54,15 +53,11 @@ jobs:
 
         jupyter labextension list 2>&1 | grep -ie "jupyterlab-logout.*OK"
         python3 -m jupyterlab.browser_check
-    - name: Install build dependencies
+    - name: Build extension package
       run: |
-        python -m pip install --upgrade pip
-        pip install build
-    - name: Build package
-      run: |
-        python -m build
-    - name: Upload package 
+        python3 -m build --sdist --wheel --outdir dist/ .
+    - name: Upload package artifact
       uses: actions/upload-artifact@v3
       with:
-        name: jupyterlab_logout-0.5.0-py3-none-any.whl
-        path: dist/jupyterlab_logout-0.5.0-py3-none-any.whl
+        name: hcc-topbar-buttons
+        path: dist/hcc_topbar_buttons-0.5.0-py3-none-any.whl
