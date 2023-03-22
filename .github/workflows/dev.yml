@@ -2,9 +2,8 @@ name: Build
 
 on:
   push:
-    branches: main
-  pull_request:
-    branches: '*'
+    branches-ignore:
+      - main
 
 jobs:
   build:
@@ -41,10 +40,10 @@ jobs:
         key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
         restore-keys: |
           ${{ runner.os }}-yarn-
-    
-    - name: Install dependencies
-      run: python3 -m pip install -U jupyterlab~=3.0 jupyter_packaging~=0.7.9
-    - name: Build the extension
+
+    - name: Install test dependencies
+      run: python3 -m pip install -U build jupyterlab~=3.0 jupyter_packaging~=0.7.9
+    - name: Test the extension
       run: |
         jlpm
         jlpm run eslint:check
@@ -52,3 +51,11 @@ jobs:
 
         jupyter labextension list 2>&1 | grep -ie "jupyterlab-logout.*OK"
         python3 -m jupyterlab.browser_check
+    - name: Build extension package
+      run: |
+        python3 -m build --sdist --wheel --outdir dist/ .
+    - name: Upload package artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: hcc-topbar-buttons
+        path: dist/hcc_topbar_buttons-0.5.0-py3-none-any.whl
