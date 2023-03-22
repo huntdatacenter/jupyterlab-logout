@@ -1,8 +1,4 @@
-import {
-  JupyterFrontEnd,
-  JupyterFrontEndPlugin,
-  IRouter
-} from '@jupyterlab/application';
+import { JupyterFrontEnd, JupyterFrontEndPlugin, IRouter } from '@jupyterlab/application';
 
 import { Widget } from '@lumino/widgets';
 
@@ -28,6 +24,8 @@ const extension: JupyterFrontEndPlugin<void> = {
     const docsWidget = new Widget({ node: docs });
     docsWidget.addClass('bp3-button');
     docsWidget.addClass('bp3-minimal');
+    docsWidget.addClass('minimal');
+    docsWidget.addClass('jp-Button');
     docsWidget.addClass('jp-ToolbarButtonComponent');
     topBar.addItem('docs-button', docsWidget);
 
@@ -41,14 +39,15 @@ const extension: JupyterFrontEndPlugin<void> = {
     const hubWidget = new Widget({ node: hub });
     hubWidget.addClass('bp3-button');
     hubWidget.addClass('bp3-minimal');
+    hubWidget.addClass('minimal');
+    hubWidget.addClass('jp-Button');
     hubWidget.addClass('jp-ToolbarButtonComponent');
     topBar.addItem('hub-button', hubWidget);
 
     const logout = document.createElement('button');
     logout.id = 'logout';
     logout.type = 'button';
-    logout.innerHTML =
-      '<span class="bp3-button-text"><i aria-hidden="true" class="fa fa-sign-out"></i> Logout</span>';
+    logout.innerHTML = '<span class="bp3-button-text"><i aria-hidden="true" class="fa fa-sign-out"></i> Logout</span>';
     logout.addEventListener('click', () => {
       router.navigate('/logout', { hard: true });
     });
@@ -56,6 +55,8 @@ const extension: JupyterFrontEndPlugin<void> = {
     const widget = new Widget({ node: logout });
     widget.addClass('bp3-button');
     widget.addClass('bp3-minimal');
+    widget.addClass('minimal');
+    widget.addClass('jp-Button');
     widget.addClass('jp-ToolbarButtonComponent');
     topBar.addItem('logout-button', widget);
   }

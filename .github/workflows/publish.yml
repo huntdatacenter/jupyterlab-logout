@@ -1,9 +1,8 @@
-name: Build
+name: Publish package
 
 on:
-  push:
-    branches-ignore:
-      - main
+  release:
+    types: [published]
 
 jobs:
   build:
@@ -11,10 +10,12 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
+      with:
+        ref: ${{ github.event.release.tag_name }}
     - name: Install node
       uses: actions/setup-node@v3
       with:
-       node-version: '16'
+       node-version: '14'
     - name: Install Python
       uses: actions/setup-python@v4
       with:
@@ -54,8 +55,8 @@ jobs:
     - name: Build extension package
       run: |
         python3 -m build --sdist --wheel --outdir dist/ .
-    - name: Upload package artifact
-      uses: actions/upload-artifact@v3
+    - name: Publish extension package
+      # if: startsWith(github.ref, 'refs/tags')
+      uses: pypa/gh-action-pypi-publish@release/v1
       with:
-        name: hcc-topbar-buttons
-        path: dist/hcc_topbar_buttons-0.5.0-py3-none-any.whl
+        password: ${{ secrets.PYPI_API_TOKEN }}
