@@ -18,7 +18,7 @@ const extension: JupyterFrontEndPlugin<void> = {
     docs.innerHTML = 'Documentation';
     // docs.setAttribute('style', 'padding: 0px 5px;');
     docs.addEventListener('click', () => {
-      window.open('https://docs.hdc.ntnu.no/', '_blank');
+      window.open('https://docs.hdc.ntnu.no/do-science/hunt-workbench/faq/', '_blank');
     });
 
     const docsWidget = new Widget({ node: docs });
