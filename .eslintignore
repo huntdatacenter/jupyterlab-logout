@@ -3,3 +3,7 @@ dist
 coverage
 **/*.d.ts
 tests
+venv
+.venv
+env
+.env
