@@ -9,54 +9,47 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         ref: ${{ github.event.release.tag_name }}
     - name: Install node
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
-       node-version: '14'
+       node-version: '18'
+       cache: 'yarn'
     - name: Install Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: '3.10'
+        cache: 'pip' # caching pip dependencies
         # architecture: 'x64'
 
-    - name: Setup pip cache
-      uses: actions/cache@v3
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-3.10-${{ hashFiles('package.json') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-3.10-
-
-    - name: Get yarn cache directory path
-      id: yarn-cache-dir-path
-      run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
-    - name: Setup yarn cache
-      uses: actions/cache@v3
-      id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
-      with:
-        path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-yarn-
-
     - name: Install test dependencies
-      run: python3 -m pip install -U build jupyterlab~=3.0 jupyter_packaging~=0.7.9
-    - name: Test the extension
       run: |
-        jlpm
-        jlpm run eslint:check
-        python3 -m pip install .
+        python -m pip install --upgrade pip
+        python -m pip install build hatch "jupyterlab>=4.0.0,<5" "hatch-nodejs-version"
 
-        jupyter labextension list 2>&1 | grep -ie "jupyterlab-logout.*OK"
-        python3 -m jupyterlab.browser_check
-    - name: Build extension package
+    - name: Lint the extension
       run: |
-        python3 -m build --sdist --wheel --outdir dist/ .
-    - name: Publish extension package
-      # if: startsWith(github.ref, 'refs/tags')
+        set -eux
+        jlpm
+        jlpm run lint:check
+
+    - name: Build the extension
+      run: |
+        set -eux
+        python -m pip install .
+
+        jupyter labextension list
+        jupyter labextension list 2>&1 | grep -ie "jupyterlab-logout.*OK"
+
+        python -m jupyterlab.browser_check
+
+    - name: Build package
+      run: |
+        python -m build
+
+    - name: Publish package
       uses: pypa/gh-action-pypi-publish@release/v1
       with:
         password: ${{ secrets.PYPI_API_TOKEN }}
