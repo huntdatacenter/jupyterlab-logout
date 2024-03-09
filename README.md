@@ -1,45 +1,28 @@
 # Workbench custom buttons
 
-[![Extension status](https://img.shields.io/badge/status-ready-success "ready to be used")](https://jupyterlab-contrib.github.io/)
-![Github Actions Status](https://github.com/jupyterlab-contrib/jupyterlab-logout/workflows/Build/badge.svg)
-
 Logout Button for JupyterLab
 
 ![screenshot](./doc/screenshot.png)
 
-## Requirements
+## Installation
 
-* JupyterLab >= 3.0
+### JupyterLab 4.x
 
-## Install
+Use version `1.0.0` or above.
 
 ```bash
-pip install jupyterlab-logout
+pip install jupyterlab-logout>=1.0.0
+```
+
+### JupyterLab 3.x
+
+Use version `0.5.0`.
+
+```bash
+pip install jupyterlab-logout==0.5.0
 ```
 
 ## Contributing
-
-### Setup dev environment
-
-```bash
-mamba create -n jlpm -c conda-forge --yes "python=3.10" "nodejs=14" "jupyterlab=3" "jupyterlab-topbar>=0.6.0" "jupyter" "notebook" "yarn"
-
-mamba activate jlpm
-
-jlpm install
-```
-
-Run lint checks after editing code:
-
-```bash
-jlpm run eslint:check
-```
-
-### Install from dev branch
-
-```bash
-python3 -m pip install "git+https://github.com/huntdatacenter/jupyterlab-logout.git@dev"
-```
 
 ### Development install
 
