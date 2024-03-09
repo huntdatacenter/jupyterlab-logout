@@ -1,7 +1,6 @@
 FROM jupyter/minimal-notebook:lab-4.0.7
 
 USER root
-
 RUN set -x \
     && apt-get update \
     && apt-get install -y curl vim less
@@ -10,13 +9,19 @@ RUN set -x \
 USER "${NB_USER}"
 
 RUN set -x \
-    && mamba install -q -c conda-forge -y jupyter-server-proxy \
+    && mamba install -q -c conda-forge -y jupyter-server-proxy build twine hatch \
     && fix-permissions /opt/conda
 
 WORKDIR "${HOME}/jupyterlab-logout"
 COPY . .
 RUN set -x \
+    && (python3 -m build && mv -v ./dist "${HOME}" || /bin/true) \
+    && fix-permissions /opt/conda
+
+USER root
+RUN set -x \
     && python3 -m pip install "${HOME}/jupyterlab-logout" \
+    && fix-permissions "${HOME}" \
     && fix-permissions /opt/conda
 
 WORKDIR "${HOME}"

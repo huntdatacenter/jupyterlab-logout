@@ -4,9 +4,7 @@ import {
   IRouter,
 } from '@jupyterlab/application';
 
-import {
-  IToolbarWidgetRegistry,
-} from '@jupyterlab/apputils';
+import { IToolbarWidgetRegistry } from '@jupyterlab/apputils';
 
 import '@jupyterlab/application/style/buttons.css';
 
@@ -42,7 +40,7 @@ const extension: JupyterFrontEndPlugin<void> = {
         `%cHub: ${hubUrl}`,
         'margin: 24px 12px 24px 12px; font-size: 14px',
       );
-    };
+    }
     console.log(
       '%cAre you looking for troubleshooting guides?',
       'margin: 12px; color: #00509e; font-weight: bold; font-size: 20px',
@@ -56,7 +54,10 @@ const extension: JupyterFrontEndPlugin<void> = {
       label: 'Documentation',
       isVisible: () => false,
       execute: (args: any) => {
-        window.open('https://docs.hdc.ntnu.no/do-science/hunt-workbench/getting-started/', '_blank');
+        window.open(
+          'https://docs.hdc.ntnu.no/do-science/hunt-workbench/getting-started/',
+          '_blank',
+        );
       },
     });
 
@@ -72,16 +73,26 @@ const extension: JupyterFrontEndPlugin<void> = {
     docsBtnNode.appendChild(docsSpanNode);
     docsBtnNode.addEventListener('click', () => {
       // Redirect without router since redirecting to external URL
-      window.open('https://docs.hdc.ntnu.no/do-science/hunt-workbench/getting-started/', '_blank');
+      window.open(
+        'https://docs.hdc.ntnu.no/do-science/hunt-workbench/getting-started/',
+        '_blank',
+      );
     });
-    ['jp-ToolbarButtonComponent', 'jp-mod-minimal', 'jp-Button'].forEach((item) => {
-      docsBtnNode.classList.add(item);
-    });
+    ['jp-ToolbarButtonComponent', 'jp-mod-minimal', 'jp-Button'].forEach(
+      (item) => {
+        docsBtnNode.classList.add(item);
+      },
+    );
     docsDivNode.appendChild(docsBtnNode);
 
     toolbarRegistry.addFactory('TopBar', 'hdcdocs', () => {
       const docsDivWidget = new Widget({ node: docsDivNode });
-      ['lm-Widget', 'jp-CommandToolbarButton', 'jp-Toolbar-item', 'workbench-button'].forEach((item) => {
+      [
+        'lm-Widget',
+        'jp-CommandToolbarButton',
+        'jp-Toolbar-item',
+        'workbench-button',
+      ].forEach((item) => {
         docsDivWidget.addClass(item);
       });
       return docsDivWidget;
@@ -108,14 +119,21 @@ const extension: JupyterFrontEndPlugin<void> = {
     ctrlBtnNode.addEventListener('click', () => {
       app.commands.execute(CommandIds.controlPanelCmd);
     });
-    ['jp-ToolbarButtonComponent', 'jp-mod-minimal', 'jp-Button'].forEach((item) => {
-      ctrlBtnNode.classList.add(item);
-    });
+    ['jp-ToolbarButtonComponent', 'jp-mod-minimal', 'jp-Button'].forEach(
+      (item) => {
+        ctrlBtnNode.classList.add(item);
+      },
+    );
     ctrlDivNode.appendChild(ctrlBtnNode);
 
     toolbarRegistry.addFactory('TopBar', 'controlpanel', () => {
       const ctrlDivWidget = new Widget({ node: ctrlDivNode });
-      ['lm-Widget', 'jp-CommandToolbarButton', 'jp-Toolbar-item', 'workbench-button'].forEach((item) => {
+      [
+        'lm-Widget',
+        'jp-CommandToolbarButton',
+        'jp-Toolbar-item',
+        'workbench-button',
+      ].forEach((item) => {
         ctrlDivWidget.addClass(item);
       });
       return ctrlDivWidget;
@@ -132,7 +150,8 @@ const extension: JupyterFrontEndPlugin<void> = {
     const lougoutBtnNode = document.createElement('button');
     const lougoutSpanNode = document.createElement('span');
     lougoutSpanNode.id = 'logout';
-    lougoutSpanNode.innerHTML = '<i aria-hidden="true" class="fa fa-sign-out"></i> Logout';
+    lougoutSpanNode.innerHTML =
+      '<i aria-hidden="true" class="fa fa-sign-out"></i> Logout';
     lougoutSpanNode.classList.add('jp-ToolbarButtonComponent-label');
     lougoutBtnNode.setAttribute('title', 'Logout');
     lougoutBtnNode.setAttribute('aria-disabled', 'false');
@@ -141,19 +160,25 @@ const extension: JupyterFrontEndPlugin<void> = {
     lougoutBtnNode.addEventListener('click', () => {
       app.commands.execute(CommandIds.logoutCmd);
     });
-    ['jp-ToolbarButtonComponent', 'jp-mod-minimal', 'jp-Button'].forEach((item) => {
-      lougoutBtnNode.classList.add(item);
-    });
+    ['jp-ToolbarButtonComponent', 'jp-mod-minimal', 'jp-Button'].forEach(
+      (item) => {
+        lougoutBtnNode.classList.add(item);
+      },
+    );
     lougoutDivNode.appendChild(lougoutBtnNode);
 
     toolbarRegistry.addFactory('TopBar', 'logout', () => {
       const lougoutDivWidget = new Widget({ node: lougoutDivNode });
-      ['lm-Widget', 'jp-CommandToolbarButton', 'jp-Toolbar-item', 'workbench-button'].forEach((item) => {
+      [
+        'lm-Widget',
+        'jp-CommandToolbarButton',
+        'jp-Toolbar-item',
+        'workbench-button',
+      ].forEach((item) => {
         lougoutDivWidget.addClass(item);
       });
       return lougoutDivWidget;
     });
-
   },
 };
 
