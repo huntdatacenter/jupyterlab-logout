@@ -29,7 +29,6 @@ const extension: JupyterFrontEndPlugin<void> = {
     router: IRouter,
     toolbarRegistry: IToolbarWidgetRegistry,
   ): Promise<void> => {
-    console.log('jupyterlab-logout extension is activated!');
     console.log(
       '%cWelcome to HUNT Workbench!',
       'margin: 12px; color: #00509e; font-weight: bold; font-size: 20px',
@@ -37,10 +36,14 @@ const extension: JupyterFrontEndPlugin<void> = {
     if (window && window.location && window.location.origin) {
       const hubUrl = `${window.location.origin}/hub/home`;
       console.log(
-        `%cHub: ${hubUrl}`,
+        `%cHub control panel: ${hubUrl}`,
         'margin: 24px 12px 24px 12px; font-size: 14px',
       );
     }
+    console.log(
+      '%cGetting started: https://docs.hdc.ntnu.no/do-science/hunt-workbench/getting-started/',
+      'margin: 24px 12px 24px 12px; font-size: 14px',
+    );
     console.log(
       '%cAre you looking for troubleshooting guides?',
       'margin: 12px; color: #00509e; font-weight: bold; font-size: 20px',
@@ -49,6 +52,7 @@ const extension: JupyterFrontEndPlugin<void> = {
       '%chttps://docs.hdc.ntnu.no/do-science/hunt-workbench/troubleshooting/',
       'margin: 24px 12px 24px 12px; font-size: 14px',
     );
+    console.log('activating jupyterlab-logout extension');
 
     app.commands.addCommand(CommandIds.hdcdocs, {
       label: 'Documentation',
@@ -102,7 +106,15 @@ const extension: JupyterFrontEndPlugin<void> = {
       label: 'Control Panel',
       isVisible: () => false,
       execute: (args: any) => {
-        router.navigate('/hub/home', { hard: true });
+        let hubUrl = '/hub/home';
+        if (window && window.location && window.location.origin) {
+          hubUrl = `${window.location.origin}/hub/home`;
+          // Redirect without router since redirecting to external URL
+          console.log(`Redirecting to ${hubUrl}`);
+          window.open(hubUrl, '_blank');
+        } else {
+          router.navigate(hubUrl, { hard: true });
+        }
       },
     });
 
@@ -179,6 +191,8 @@ const extension: JupyterFrontEndPlugin<void> = {
       });
       return lougoutDivWidget;
     });
+
+    console.log('jupyterlab-logout extension is activated!');
   },
 };
 
